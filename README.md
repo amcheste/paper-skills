@@ -1,6 +1,6 @@
 # paper-skills
 
-Cowork skills for academic research paper processing. Triage papers, extract structured annotations, and file everything directly into your Obsidian vault — from a single command.
+Cowork skills for academic research paper processing. Triage papers, extract structured annotations, and file everything directly into your Obsidian vault, from a single command.
 
 ---
 
@@ -13,7 +13,7 @@ Triage a paper before you commit to reading it. Paste a title and abstract (or d
 Extract a structured 10-field annotation from a paper you've already read. Produces a markdown file with YAML frontmatter and Obsidian wikilinks, ready to drop into your vault. Fields: Core Claim, Mechanism, Key Assumption, Quotable Passage, Limitations, So What, Cross-References, Where to Cite, Full Citation (APA 7th), and Research Notes.
 
 ### `paper-intake`
-The full pipeline in one command. Runs `paper-screen` → `paper-annotate` → terminology check → save to `Annotations/`. If a paper screens as SKIP, the pipeline halts and tells you why — no annotation is created. Ends with a completion report: verdict, score, tier, pillar, best use in your paper, and three suggested next actions.
+The full pipeline in one command. Runs `paper-screen` → `paper-annotate` → terminology check → save to `Annotations/`. If a paper screens as SKIP, the pipeline halts and tells you why. No annotation is created. Ends with a completion report: verdict, score, tier, pillar, best use in your paper, and three suggested next actions.
 
 ---
 
@@ -47,13 +47,13 @@ Annotations are saved as markdown files to `Annotations/` in your vault root, na
 - **Obsidian wikilinks** in the Cross-References field (`[[Brooks1975]]`, `[[Williamson1981]]`) for graph view connections
 - **Callout block formatting** on screen output, for direct paste into any note
 
-The skills are generic — they derive tags and pillar classifications from your `.research-context.md` config, so the vault structure works for any research project.
+The skills are generic. They derive tags and pillar classifications from your `.research-context.md` config, so the vault structure works for any research project.
 
 ---
 
 ## Research Context
 
-All three skills read a single config file — `.research-context.md` — from your vault root. This file tells the skills what your research is about, what counts as relevant, and what terms are uniquely yours.
+All three skills read a single config file (`.research-context.md`) from your vault root. This file tells the skills what your research is about, what counts as relevant, and what terms are uniquely yours.
 
 If the file doesn't exist, the skills fall back to defaults and ask one question before proceeding.
 
@@ -110,7 +110,7 @@ Package each skill folder as a `.skill` file and install via Cowork in the Claud
 
 **2. Create your research context** *(optional but recommended)*
 
-Create `.research-context.md` in your Obsidian vault root using the template above. Fill in your topic, pillars, green/red flags, coined terms, and paper outline. The skills read this file automatically — no other configuration needed.
+Create `.research-context.md` in your Obsidian vault root using the template above. Fill in your topic, pillars, green/red flags, coined terms, and paper outline. The skills read this file automatically. No other configuration needed.
 
 **3. Process a paper**
 
@@ -125,7 +125,7 @@ Or use the skills individually:
 
 **4. Find your annotations**
 
-Completed annotations appear in `Annotations/` in your vault root, named `AuthorYear - Shortened Title.md`. Open your vault in Obsidian — wikilinks and tags are already in place.
+Completed annotations appear in `Annotations/` in your vault root, named `AuthorYear - Shortened Title.md`. Open your vault in Obsidian. Wikilinks and tags are already in place.
 
 ---
 
@@ -138,9 +138,9 @@ Completed annotations appear in `Annotations/` in your vault root, named `Author
 | `paper-intake` | Title + abstract minimum, URL preferred | Completion report + file in `Annotations/` | Verdict is SKIP |
 
 **Tier tags:**
-- `#tier/1` — core paper; directly supports a key argument
-- `#tier/2` — supporting context; useful but not load-bearing
-- `#tier/3` — peripheral; worth knowing, unlikely to be cited heavily
+- `#tier/1`: core paper; directly supports a key argument
+- `#tier/2`: supporting context; useful but not load-bearing
+- `#tier/3`: peripheral; worth knowing, unlikely to be cited heavily
 
 **Default pillar tags** (overridden by `.research-context.md`):
 - `#pillar/org-design`
@@ -152,7 +152,7 @@ Completed annotations appear in `Annotations/` in your vault root, named `Author
 
 ## Related
 
-**[ea-skills](https://github.com/amcheste/ea-skills)** — Cowork skills for enterprise architecture work.
+**[ea-skills](https://github.com/amcheste/ea-skills)**: Cowork skills for enterprise architecture work.
 
 ---
 
