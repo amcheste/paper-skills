@@ -1,5 +1,8 @@
 # paper-skills
 
+[![Version](https://img.shields.io/badge/version-0.1.0-0B0B0C.svg)](CHANGELOG.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-1F4D3A.svg)](LICENSE)
+
 Cowork skills for academic research paper processing. Triage papers, extract structured annotations, and file everything directly into your Obsidian vault — from a single command.
 
 ---
