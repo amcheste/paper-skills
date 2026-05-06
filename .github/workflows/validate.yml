@@ -1,0 +1,109 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Lint markdown
+        run: |
+          npm install -g markdownlint-cli2@0.18.1
+          markdownlint-cli2 "**/*.md" "#node_modules"
+
+      - name: Validate skill structure
+        run: |
+          python3 - <<'EOF'
+          import os, re, sys
+
+          errors = []
+          checked = []
+
+          for entry in sorted(os.listdir('.')):
+              if not entry.startswith('paper-'):
+                  continue
+              if not os.path.isdir(entry):
+                  continue
+
+              skill_file = os.path.join(entry, 'SKILL.md')
+              if not os.path.isfile(skill_file):
+                  errors.append(f"{entry}: missing SKILL.md")
+                  continue
+
+              with open(skill_file) as f:
+                  lines = f.read().splitlines()
+
+              # First non-blank line must be `# <folder-name>`
+              first = next((l for l in lines if l.strip()), '')
+              expected_h1 = f"# {entry}"
+              if first != expected_h1:
+                  errors.append(
+                      f"{entry}: SKILL.md first heading is {first!r}, "
+                      f"expected {expected_h1!r}"
+                  )
+                  continue
+
+              # Must have a description paragraph after the H1 before the next heading
+              after_h1 = lines[lines.index(first) + 1:]
+              description = []
+              for l in after_h1:
+                  if l.startswith('#'):
+                      break
+                  if l.strip():
+                      description.append(l.strip())
+              if not description:
+                  errors.append(f"{entry}: SKILL.md has no description after the H1")
+                  continue
+              if sum(len(d) for d in description) < 40:
+                  errors.append(
+                      f"{entry}: SKILL.md description is too short "
+                      f"(needs at least 40 chars before the next heading)"
+                  )
+                  continue
+
+              checked.append(entry)
+
+          if errors:
+              for e in errors:
+                  print(f"ERROR: {e}")
+              sys.exit(1)
+
+          if not checked:
+              print("ERROR: no paper-* skills found")
+              sys.exit(1)
+
+          print(f"All {len(checked)} skills validated: {', '.join(checked)}")
+          EOF
+
+      - name: Validate evals/evals.json
+        run: |
+          if [[ ! -f evals/evals.json ]]; then
+            echo "ERROR: evals/evals.json is missing"
+            exit 1
+          fi
+          jq empty evals/evals.json
+          echo "evals/evals.json is valid JSON"
+
+      - name: Validate VERSION format
+        run: |
+          if [[ ! -f VERSION ]]; then
+            echo "ERROR: VERSION file is missing"
+            exit 1
+          fi
+          version=$(tr -d '[:space:]' < VERSION)
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$ ]]; then
+            echo "ERROR: VERSION '$version' does not match semver pattern"
+            echo "       expected: MAJOR.MINOR.PATCH or MAJOR.MINOR.PATCH-PRERELEASE"
+            exit 1
+          fi
+          echo "VERSION = $version"
