@@ -158,4 +158,4 @@ Completed annotations appear in `Annotations/` in your vault root, named `Author
 
 ## License
 
-MIT
+[MIT](LICENSE)
